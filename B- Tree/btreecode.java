@@ -19,6 +19,10 @@ public class btreecode {
         System.out.println(bTree.root.curCount);
 
         bTree.delete(3);
+        bTree.delete(2);
+        bTree.delete(7);
+        bTree.delete(5);
+        bTree.delete(1);
         System.out.println(bTree.root.curCount);
     }
     public static class Node
@@ -140,15 +144,16 @@ public class btreecode {
                 }
                 for(;i<root.curCount-1;i++)
                 {
-                    root.childs[i] = root.childs[i+1];
+                    root.keys[i] = root.keys[i+1];
                 }
+                root.curCount-=1;
             }
             else
             {
                 int i = 0;
-                while(i<root.keys.length && root.keys[i]<k)
+                while(i<root.curCount && root.keys[i]<k)
                     i++;
-                if(i<root.keys.length && root.keys[i] == k)
+                if(i<root.curCount && root.keys[i] == k)
                 {
                     if(root.childs[i].curCount>t-1)
                     {
@@ -165,6 +170,40 @@ public class btreecode {
                         merge(root,root.childs[i],root.childs[i+1],i);
                         delete(root.childs[i],k);
                     }
+                }
+                else
+                {
+                    if(root.childs[i].curCount==t-1)
+                    {
+                        if(i-1>=0 && root.childs[i-1].curCount>=t)
+                        {
+                            //rotateRight
+                            rotateRight(root,root.childs[i-1],root.childs[i],i-1);
+                            delete(root.childs[i-1],k);
+                        }
+                        else if(i<root.curCount && root.childs[i+1].curCount>=t)
+                        {
+                            //leftRotate
+                            rotateLeft(root,root.childs[i],root.childs[i+1],i);
+                            delete(root.childs[i],k);
+                        }
+                        else
+                        {
+                            //Merge
+                            if(i<root.curCount)
+                            {
+                                merge(root,root.childs[i],root.childs[i+1],i);
+                                delete(root.childs[i],k);
+                            }
+                            else
+                            {
+                                merge(root,root.childs[i-1],root.childs[i],i-1);
+                                delete(root.childs[i-1],k);
+                            }
+                        }
+                    }
+                    else
+                        delete(root.childs[i],k);
                 }
             }
         }
@@ -198,6 +237,37 @@ public class btreecode {
             root.curCount-=1;
             child1.curCount = 2*t-1;
 
+            if(root == this.root && root.curCount == 0)
+                this.root = child1;
+
+        }
+
+        public void rotateRight(Node root, Node child1, Node child2, int indRoot)
+        {
+            for(int i = 0;i<child2.curCount;i++)
+                child2.keys[i+1] = child2.keys[i];
+            for(int i = 0;i<=child2.curCount;i++)
+                child2.childs[i+1] = child2.childs[i];
+            child2.keys[0] = root.keys[indRoot];
+            root.keys[indRoot] = child1.keys[child1.curCount-1];
+            child2.childs[0] = child1.childs[child1.curCount];
+
+            child1.curCount-=1;
+            child2.curCount+=1;
+        }
+
+        public void rotateLeft(Node root, Node child1, Node child2, int indRoot)
+        {
+            child1.keys[child1.curCount] = root.keys[indRoot];
+            root.keys[indRoot] = child2.keys[0];
+            child1.childs[child1.curCount+1] = child2.childs[0];
+            for(int i = 1;i<child2.curCount;i++)
+                child2.keys[i-1] = child2.keys[i];
+            for(int i = 0;i<=child2.curCount;i++)
+                child2.childs[i-1] = child2.childs[i];
+
+            child1.curCount+=1;
+            child2.curCount-=1;
         }
     }
 
