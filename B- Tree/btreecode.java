@@ -160,7 +160,7 @@ public class btreecode {
                         root.keys[i] = findPredecessor(root.childs[i]);
                         delete(root.childs[i],root.keys[i]);
                     }
-                    else if(i+1<root.curCount &&  root.childs[i+1].curCount>t-1)
+                    else if(i+1<=root.curCount &&  root.childs[i+1].curCount>t-1)
                     {
                         root.keys[i] = findSuccessor(root.childs[i+1]);
                         delete(root.childs[i+1],root.keys[i]);
