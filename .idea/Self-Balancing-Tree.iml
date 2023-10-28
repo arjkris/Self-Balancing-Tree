@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/AVL Tree" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/B- Tree" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Red Black Tree" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/B+ Trees" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
