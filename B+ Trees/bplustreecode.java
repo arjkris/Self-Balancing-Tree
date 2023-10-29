@@ -106,6 +106,7 @@ public class bplustreecode {
         {
             Node newNode = new Node(t);
             newNode.isLeaf = childFullNode.isLeaf;
+            newNode.next = childFullNode.next;
             childFullNode.next = newNode;
             for(int i = (2*t-1)-1;i>t-1;i--)
             {
@@ -223,6 +224,7 @@ public class bplustreecode {
 
             root.curCount-=1;
             child1.curCount = child1.curCount+child2.curCount;
+            child1.next = child2.next;
 
             if(root == this.root && root.curCount == 0)
                 this.root = child1;
